@@ -97,7 +97,7 @@ def gen_image_3(big_image, frame_obj):
     result_image.paste(rect_on_big, result_box)
     return result_image
 
-def gen_png(plist_file, png_file):
+def gen_png(plist_file, png_file, output_path = None):
     print("gen_png start")
 
     print("plist_file = %s" % plist_file)
@@ -111,7 +111,9 @@ def gen_png(plist_file, png_file):
 
     png_path, png_name = os.path.split(png_file)
     png_name, _ = os.path.splitext(png_name)
-    output_path = os.path.join(png_path, png_name)
+    
+    if output_path == None:
+        output_path = os.path.join(png_path, png_name)
 
     print("output_path is %s" % output_path)
 
@@ -146,10 +148,11 @@ def gen_png(plist_file, png_file):
 if __name__ == '__main__':
     parser = OptionParser()
     parser.add_option("-p", "--plist", dest="plist", help="plist file")
+    parser.add_option("-o", "--output", dest="output", help="output path")
     (options, args) = parser.parse_args()
 
     if options.plist != None:
         file_name, _ = os.path.splitext(options.plist)
         plist_filename = file_name + '.plist'
         png_filename = file_name + '.png'
-        gen_png(plist_filename, png_filename)
+        gen_png(plist_filename, png_filename, options.output)
